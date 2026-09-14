@@ -1,15 +1,21 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:weather_apps_in_flutter/module/home/home_logic.dart';
 import 'package:weather_apps_in_flutter/utils/style/style_padding.dart';
 import '../../../utils/app_size.dart';
 import '../../../utils/asset_constant.dart';
+
+import '../widgets/dotinicator.dart';
 import '../widgets/home_location_and_temp_view.dart';
 import '../widgets/home_main_image_view.dart';
 import '../widgets/home_quick_state_view.dart';
 import '../widgets/home_search_location_view.dart';
 import '../widgets/home_sunrise_and_sunset_view.dart';
 import '../widgets/shimmer_view.dart';
+
 
 class HomeMobileScreen extends GetView<HomeLogic> {
   const HomeMobileScreen({super.key});
@@ -31,10 +37,15 @@ class HomeMobileScreen extends GetView<HomeLogic> {
                 const HomeSearchLocationView(),
                 Expanded(
                   child: SingleChildScrollView(
+
                     child: Column(
-                      spacing: WSizes.defaultSpacing,
+
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        DotIndicator(),
+
+
+                        const SizedBox(height: 50),
                         const HomeMainImageView(imagePath: AssetConstants.partyCloudy, imageHeight: 200),
                         const HomeLocationAndTempView(),
                         const HomeQuickStateView(),
@@ -51,4 +62,5 @@ class HomeMobileScreen extends GetView<HomeLogic> {
     );
   }
 }
+
 

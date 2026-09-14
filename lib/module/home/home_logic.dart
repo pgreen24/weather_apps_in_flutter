@@ -6,6 +6,11 @@ class HomeLogic extends GetxController {
 
   RxBool isDarkMode = false.obs;
 
+
+
+  var currentPageIndex = 0.obs;
+  final PageController pageController = PageController();
+
   final TextEditingController searchController = TextEditingController();
 
   @override
@@ -16,10 +21,13 @@ class HomeLogic extends GetxController {
       isLoading.value = false;
     });
   }
-
+  void updatePageIndex(int index) {
+    currentPageIndex.value = index;
+  }
   @override
   void dispose() {
     searchController.dispose();
+    pageController.dispose();
     super.dispose();
   }
 }

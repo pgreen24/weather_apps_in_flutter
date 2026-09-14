@@ -15,5 +15,6 @@ class AppPage {
     GetPage(name: AppRoutes.splash, page: () => SplashPage(),bindings:[SplashBinding()]),
     GetPage(name: AppRoutes.shimmer, page: () => ShimmerPage(),bindings:[ShimmerBinding()]),
     GetPage(name: AppRoutes.home, page: () => HomePage(),bindings:[HomeBinding()]),
+
   ];
 }

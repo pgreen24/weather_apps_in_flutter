@@ -5,6 +5,7 @@ import 'package:weather_apps_in_flutter/module/home/home_logic.dart';
 import '../../../utils/app_size.dart';
 import '../../../utils/asset_constant.dart';
 import '../../../utils/style/style_padding.dart';
+import '../widgets/dotinicator.dart';
 import '../widgets/home_location_and_temp_view.dart';
 import '../widgets/home_main_image_view.dart';
 import '../widgets/home_quick_state_view.dart';
@@ -36,6 +37,8 @@ class HomeTabletScreen extends GetView<HomeLogic> {
                       spacing: WSizes.defaultSpacing,
                       mainAxisSize: MainAxisSize.min,
                       children: [
+
+                        const SizedBox(height: 50),
                         const HomeMainImageView(imagePath: AssetConstants.partyCloudy, imageHeight: 200),
                         const HomeLocationAndTempView(),
                         const HomeQuickStateView(),
