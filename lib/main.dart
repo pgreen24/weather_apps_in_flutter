@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:weather_apps_in_flutter/routes/app_page.dart';
+import 'package:weather_apps_in_flutter/utils/theme/theme.dart';
 
 void main()  {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  ResponsiveSizingConfig.instance.setCustomBreakpoints(const ScreenBreakpoints(desktop: 800, tablet: 550, watch: 200));
 
   runApp( MyApp());
 }
@@ -17,9 +25,13 @@ class MyApp extends StatelessWidget {
       title: 'weather App',
       initialRoute: AppPage.initial,
       getPages: AppPage.routes,
+      smartManagement: SmartManagement.keepFactory,
+      defaultTransition: Transition.fade,
+      themeMode: ThemeMode.system,
+      darkTheme: WAppTheme.darkTheme,
+      theme: WAppTheme.lightTheme,
     );
   }
 }
-
 
 

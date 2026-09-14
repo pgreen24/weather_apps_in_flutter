@@ -10,14 +10,14 @@ class ShimmerPage extends GetView<ShimmerLogic> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppsColor.maincolor,
+      backgroundColor: AppsColor.mainColor,
       body: SafeArea(
         child: Obx(() => controller.isLoading.isFalse ? _buildNextPageContent() : Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
           child: SingleChildScrollView(
             child: Shimmer.fromColors(
-              baseColor: AppsColor.baseColorS!,
-              highlightColor: AppsColor.highlightColor!,
+              baseColor: AppsColor.baseColorS,
+              highlightColor: AppsColor.highlightColor,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -25,7 +25,7 @@ class ShimmerPage extends GetView<ShimmerLogic> {
                   Container(
                     width: 100,
                     height: 100,
-                    color: AppsColor.maincolor,
+                    color: AppsColor.mainColor,
                   ),
                   const SizedBox(height: 16),
                   Row(
@@ -35,7 +35,7 @@ class ShimmerPage extends GetView<ShimmerLogic> {
                         width: 40,
                         height: 6,
                         decoration: BoxDecoration(
-                          color: AppsColor.maincolor,
+                          color: AppsColor.mainColor,
                           borderRadius: BorderRadius.circular(3),
                         ),
                       ),
@@ -44,7 +44,7 @@ class ShimmerPage extends GetView<ShimmerLogic> {
                         width: 40,
                         height: 6,
                         decoration: BoxDecoration(
-                          color: AppsColor.maincolor,
+                          color: AppsColor.mainColor,
                           borderRadius: BorderRadius.circular(3),
                         ),
                       ),
@@ -57,7 +57,7 @@ class ShimmerPage extends GetView<ShimmerLogic> {
                       style: TextStyle(
                         fontSize: 70,
                         fontWeight: FontWeight.bold,
-                        color: AppsColor.Secomdmain,
+                        color: AppsColor.secondMain,
                       ),
                     ),
                   ),
@@ -66,7 +66,7 @@ class ShimmerPage extends GetView<ShimmerLogic> {
                     width: double.infinity,
                     height: 100,
                     decoration: BoxDecoration(
-                      color: AppsColor.maincolor,
+                      color: AppsColor.mainColor,
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
@@ -75,7 +75,7 @@ class ShimmerPage extends GetView<ShimmerLogic> {
                     width: double.infinity,
                     height: 300,
                     decoration: BoxDecoration(
-                      color: AppsColor.maincolor,
+                      color: AppsColor.mainColor,
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
@@ -84,7 +84,7 @@ class ShimmerPage extends GetView<ShimmerLogic> {
                     width: double.infinity,
                     height: 100,
                     decoration: BoxDecoration(
-                      color: AppsColor.maincolor,
+                      color: AppsColor.mainColor,
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
