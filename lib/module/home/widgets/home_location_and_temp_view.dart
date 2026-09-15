@@ -29,7 +29,7 @@ class HomeLocationAndTempView extends StatelessWidget {
             )
           ],
         ),
-        Text('20°', style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 60, letterSpacing: 0.95, fontWeight: FontWeight.w900)),
+        Text('31°', style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 60, letterSpacing: 0.95, fontWeight: FontWeight.w900)),
       ],
     );
   }

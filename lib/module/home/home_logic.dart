@@ -3,13 +3,13 @@ import 'package:get/get.dart';
 
 class HomeLogic extends GetxController {
   RxBool isLoading = true.obs;
-
   RxBool isDarkMode = false.obs;
 
 
+  var currentPageIndex = 1.obs;
 
-  var currentPageIndex = 0.obs;
-  final PageController pageController = PageController();
+
+  final PageController pageController = PageController(initialPage: 1);
 
   final TextEditingController searchController = TextEditingController();
 
@@ -21,13 +21,15 @@ class HomeLogic extends GetxController {
       isLoading.value = false;
     });
   }
+
   void updatePageIndex(int index) {
     currentPageIndex.value = index;
   }
+
   @override
-  void dispose() {
+  void onClose() {
     searchController.dispose();
     pageController.dispose();
-    super.dispose();
+    super.onClose();
   }
 }

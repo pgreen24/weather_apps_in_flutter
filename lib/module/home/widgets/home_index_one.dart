@@ -1,26 +1,50 @@
-import 'package:flutter/material.dart'; // কুপার্টিনোর পাশাপাশি মেটেরিয়াল কালার ব্যবহারের জন্য
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:weather_apps_in_flutter/module/home/home_logic.dart';
+import '../../../utils/app_size.dart';
+import '../../../utils/asset_constant.dart';
+import '../../../utils/style/style_padding.dart';
+import '../widgets/home_quick_state_view.dart';
+import '../widgets/home_sunrise_and_sunset_view.dart';
+import 'Frist_index_location_temp.dart';
+import 'frist_index_warning.dart';
+import 'home_main_image_view.dart';
 
-class homeIndexOne extends StatelessWidget {
+class homeIndexOne extends GetView<HomeLogic> {
   const homeIndexOne({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 300,
-      color: Colors.blueGrey.shade50,
-      child: const Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.cloud_queue, size: 64, color: Colors.blue),
-          SizedBox(height: 16),
-          Text(
-            "This is Page 2 (homeIndexOne)",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    return SafeArea(
+          child: Padding(
+            padding: StylePadding.screenPaddingMobile,
+            child: Column(
+              spacing: WSizes.defaultSpacing,
+              children: <Widget>[
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      spacing: WSizes.defaultSpacing,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(height: 20),
+                        const HomeMainImageView(
+                          imagePath: AssetConstants.cloudy,
+                          imageHeight: 150,
+                        ),
+                        const FristIndexLocationTemp(),
+                        const FristIndexWarning(),
+                        const HomeQuickStateView(),
+                        const HomeSunriseAndSunsetView(),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
-    );
+        );
+
+
   }
 }
-

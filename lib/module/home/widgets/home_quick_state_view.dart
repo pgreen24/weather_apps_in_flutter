@@ -24,14 +24,16 @@ class HomeQuickStateView extends StatelessWidget {
         _buildStatColumn(context: context, title: 'AQ', value: '22'),
       ],
     ),
+
   );
+
 
   static Widget _buildStatColumn({required BuildContext context, required String title, required String value}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(title, style: Theme.of(context).textTheme.bodySmall),
-        const SizedBox(height: 4),
+        const SizedBox(height: 10),
         Text(value, style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500)),
       ],
     );

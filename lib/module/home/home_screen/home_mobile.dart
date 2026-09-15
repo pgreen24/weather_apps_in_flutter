@@ -9,6 +9,8 @@ import '../../../utils/app_size.dart';
 import '../../../utils/asset_constant.dart';
 
 import '../widgets/dotinicator.dart';
+import '../widgets/home_index_one.dart';
+import '../widgets/home_index_two.dart';
 import '../widgets/home_location_and_temp_view.dart';
 import '../widgets/home_main_image_view.dart';
 import '../widgets/home_quick_state_view.dart';
@@ -24,36 +26,39 @@ class HomeMobileScreen extends GetView<HomeLogic> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        if(controller.isLoading.isTrue) {
-          return ShimmerView();
+        if (controller.isLoading.isTrue) {
+          return const ShimmerView();
         }
+
+
+        final List<Widget> pages = [
+          const homeIndexOne(),
+          const HomeFirstPageWidgets(),
+          const homeIndexTwo(),
+
+        ];
 
         return SafeArea(
           child: Padding(
             padding: StylePadding.screenPaddingMobile,
             child: Column(
-              spacing: WSizes.defaultSpacing,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const HomeSearchLocationView(),
+                const SizedBox(height: 10),
+
+                const DotIndicator(),
+                const SizedBox(height: 20),
+
                 Expanded(
-                  child: SingleChildScrollView(
-
-                    child: Column(
-
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        DotIndicator(),
-
-
-                        const SizedBox(height: 50),
-                        const HomeMainImageView(imagePath: AssetConstants.partyCloudy, imageHeight: 200),
-                        const HomeLocationAndTempView(),
-                        const HomeQuickStateView(),
-                        const HomeSunriseAndSunsetView(),
-                      ],
-                    ),
+                  child: PageView(
+                    controller: controller.pageController,
+                    onPageChanged: (index) {
+                      controller.updatePageIndex(index);
+                    },
+                    children: pages,
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -63,4 +68,21 @@ class HomeMobileScreen extends GetView<HomeLogic> {
   }
 }
 
+class HomeFirstPageWidgets extends StatelessWidget {
+  const HomeFirstPageWidgets({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          HomeMainImageView(imagePath: AssetConstants.partyCloudy, imageHeight: 200),
+          HomeLocationAndTempView(),
+          HomeQuickStateView(),
+          HomeSunriseAndSunsetView(),
+        ],
+      ),
+    );
+  }
+}

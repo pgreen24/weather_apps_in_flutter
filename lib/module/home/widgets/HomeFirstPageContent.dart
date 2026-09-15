@@ -15,8 +15,9 @@ class HomeFirstPageContent extends StatelessWidget {
     return Column(
       spacing: WSizes.defaultSpacing,
         mainAxisSize: MainAxisSize.min,
+
       children: const [
-        SizedBox(height: 50),
+        SizedBox(height: 20),
         HomeMainImageView(imagePath: AssetConstants.partyCloudy, imageHeight: 200),
         HomeLocationAndTempView(),
         HomeQuickStateView(),
