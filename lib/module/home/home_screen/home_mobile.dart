@@ -1,14 +1,11 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:weather_apps_in_flutter/module/home/home_logic.dart';
 import 'package:weather_apps_in_flutter/utils/style/style_padding.dart';
-import '../../../utils/app_size.dart';
 import '../../../utils/asset_constant.dart';
-
 import '../widgets/dotinicator.dart';
+import '../widgets/favorute_city.dart';
 import '../widgets/home_index_one.dart';
 import '../widgets/home_index_two.dart';
 import '../widgets/home_location_and_temp_view.dart';
@@ -17,6 +14,7 @@ import '../widgets/home_quick_state_view.dart';
 import '../widgets/home_search_location_view.dart';
 import '../widgets/home_sunrise_and_sunset_view.dart';
 import '../widgets/shimmer_view.dart';
+
 
 
 class HomeMobileScreen extends GetView<HomeLogic> {
@@ -48,6 +46,7 @@ class HomeMobileScreen extends GetView<HomeLogic> {
                 const SizedBox(height: 10),
 
                 const DotIndicator(),
+                const FavoruteCity(),
                 const SizedBox(height: 20),
 
                 Expanded(
@@ -77,6 +76,7 @@ class HomeFirstPageWidgets extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: const [
+
           HomeMainImageView(imagePath: AssetConstants.partyCloudy, imageHeight: 200),
           HomeLocationAndTempView(),
           HomeQuickStateView(),

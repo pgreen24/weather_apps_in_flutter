@@ -4,6 +4,7 @@ import 'package:weather_apps_in_flutter/module/home/home_logic.dart';
 import '../../../utils/asset_constant.dart';
 import '../../../utils/style/style_padding.dart';
 import '../widgets/dotinicator.dart';
+import '../widgets/favorute_city.dart';
 import '../widgets/home_index_one.dart';
 import '../widgets/home_index_two.dart';
 import '../widgets/home_location_and_temp_view.dart';
@@ -42,6 +43,7 @@ class HomeTabletScreen extends GetView<HomeLogic> {
                 const SizedBox(height: 10),
 
                 const DotIndicator(),
+                const FavoruteCity(),
                 const SizedBox(height: 20),
 
                 Expanded(

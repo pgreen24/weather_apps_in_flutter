@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+
+import '../../../utils/app_size.dart';
+import '../../../utils/apps_color.dart';
 
 class FristIndexWarning extends StatelessWidget {
   const FristIndexWarning({super.key});
@@ -6,10 +11,12 @@ class FristIndexWarning extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      width: double.infinity,
+      padding: const EdgeInsets.all(WSizes.defaultSpacing + 4),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16.0),
+        color: Get.isDarkMode ? AppsColor.darkerGrey.withValues(alpha: 0.5) : AppsColor.white,
+        borderRadius: BorderRadius.circular(WSizes.borderRadiusMd),
+        border: Border.all(color: AppsColor.darkGrey.withValues(alpha: 0.5), width: 0.5),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,7 +69,7 @@ class FristIndexWarning extends StatelessWidget {
                         Text(
                           '58%',
                           style: TextStyle(
-                            color: Colors.black54,
+                            color: Color(0xFF8A90A2),
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           ),
@@ -88,7 +95,7 @@ class FristIndexWarning extends StatelessWidget {
                         Text(
                           '02:00 PM',
                           style: TextStyle(
-                            color: Colors.black54,
+                            color: Color(0xFF8A90A2),
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           ),

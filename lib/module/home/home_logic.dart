@@ -1,17 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:weather_apps_in_flutter/module/home/widgets/weather_add_list.dart';
+import '../../../utils/asset_constant.dart';
 
 class HomeLogic extends GetxController {
   RxBool isLoading = true.obs;
   RxBool isDarkMode = false.obs;
-
+  var isAddedToList = false.obs;
 
   var currentPageIndex = 1.obs;
 
-
   final PageController pageController = PageController(initialPage: 1);
-
   final TextEditingController searchController = TextEditingController();
+
+  var searchHistory = <String>['Mumbai', 'Pune', 'Dhaka'].obs;
+
+  var searchedCity = ''.obs;
+  var temperature = ''.obs;
+  var weatherIconPath = ''.obs;
+
+
+  var homeCity = 'Hyderabad'.obs;
+  var homeTemp = '31°'.obs;
+  var homeIcon = AssetConstants.partyCloudy.obs;
+
+
+  var addedCitiesList = <Map<String, String>>[
+    {'city': 'Hyderabad', 'temp': '31°', 'icon': AssetConstants.partyCloudy},
+  ].obs;
 
   @override
   void onInit() {
@@ -22,8 +38,81 @@ class HomeLogic extends GetxController {
     });
   }
 
+  void performSearch(String query) {
+    if (query.trim().isEmpty) return;
+
+    String formattedQuery = query.trim();
+    searchedCity.value = formattedQuery;
+
+    searchHistory.remove(formattedQuery);
+    searchHistory.insert(0, formattedQuery);
+    if (searchHistory.length > 3) {
+      searchHistory.removeLast();
+    }
+
+
+    if (formattedQuery.toLowerCase() == 'hyderabad') {
+      temperature.value = '31°';
+      weatherIconPath.value = AssetConstants.sunny;
+    } else if (formattedQuery.toLowerCase() == 'mumbai') {
+      temperature.value = '24°';
+      weatherIconPath.value = AssetConstants.partyCloudy;
+    } else {
+      temperature.value = '28°';
+      weatherIconPath.value = AssetConstants.cloudy;
+    }
+
+
+    isAddedToList.value = addedCitiesList.any(
+            (element) => element['city']!.toLowerCase() == formattedQuery.toLowerCase()
+    );
+  }
+
+
+  void toggleCityInList() {
+    isAddedToList.value = !isAddedToList.value;
+
+    if (isAddedToList.value) {
+      bool alreadyExists = addedCitiesList.any(
+              (element) => element['city']!.toLowerCase() == searchedCity.value.toLowerCase()
+      );
+
+      if (!alreadyExists) {
+        addedCitiesList.add({
+          'city': searchedCity.value,
+          'temp': temperature.value,
+          'icon': weatherIconPath.value.isEmpty ? AssetConstants.sunny : weatherIconPath.value,
+        });
+      }
+    } else {
+      addedCitiesList.removeWhere(
+              (element) => element['city']!.toLowerCase() == searchedCity.value.toLowerCase()
+      );
+    }
+  }
+
+
+  void updateHomeWeatherData(String city, String temp, String icon) {
+    homeCity.value = city;
+    homeTemp.value = temp;
+    homeIcon.value = icon;
+  }
+
+  void removeFromHistory(String city) {
+    searchHistory.remove(city);
+  }
+
   void updatePageIndex(int index) {
     currentPageIndex.value = index;
+  }
+
+  void openWeatherAddList(String city) {
+    performSearch(city);
+
+    isAddedToList.value = addedCitiesList.any(
+            (element) => element['city']!.toLowerCase() == city.toLowerCase()
+    );
+    Get.to(() => const WeatherAddList());
   }
 
   @override
@@ -33,3 +122,4 @@ class HomeLogic extends GetxController {
     super.onClose();
   }
 }
+

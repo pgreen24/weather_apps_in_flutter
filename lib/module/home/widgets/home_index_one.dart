@@ -44,7 +44,5 @@ class homeIndexOne extends GetView<HomeLogic> {
             ),
           ),
         );
-
-
   }
 }
