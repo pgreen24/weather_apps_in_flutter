@@ -16,7 +16,7 @@ class FristIndexLocationTemp extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: WSizes.iconSm - 5,
           children: [
-            Text('Mumbai', style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 42, letterSpacing: 0.95, fontWeight: FontWeight.w900)),
+            Text('Rajshahi', style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 42, letterSpacing: 0.95, fontWeight: FontWeight.w900)),
             HomeMainImageView(
               imagePath: AssetConstants.locationIcon,
               imageWidth: 20,

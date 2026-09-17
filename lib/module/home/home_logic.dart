@@ -13,20 +13,20 @@ class HomeLogic extends GetxController {
   final PageController pageController = PageController(initialPage: 1);
   final TextEditingController searchController = TextEditingController();
 
-  var searchHistory = <String>['Mumbai', 'Pune', 'Dhaka'].obs;
+  var searchHistory = <String>['Dhaka','Rajshahi', 'sylhet'].obs;
 
   var searchedCity = ''.obs;
   var temperature = ''.obs;
   var weatherIconPath = ''.obs;
 
 
-  var homeCity = 'Hyderabad'.obs;
+  var homeCity = 'Dhaka'.obs;
   var homeTemp = '31°'.obs;
   var homeIcon = AssetConstants.partyCloudy.obs;
 
 
   var addedCitiesList = <Map<String, String>>[
-    {'city': 'Hyderabad', 'temp': '31°', 'icon': AssetConstants.partyCloudy},
+    {'city': 'Dhaka', 'temp': '31°', 'icon': AssetConstants.partyCloudy}
   ].obs;
 
   @override
@@ -51,15 +51,15 @@ class HomeLogic extends GetxController {
     }
 
 
-    if (formattedQuery.toLowerCase() == 'hyderabad') {
+    if (formattedQuery.toLowerCase() == 'dhaka') {
       temperature.value = '31°';
-      weatherIconPath.value = AssetConstants.sunny;
-    } else if (formattedQuery.toLowerCase() == 'mumbai') {
-      temperature.value = '24°';
       weatherIconPath.value = AssetConstants.partyCloudy;
+    } else if (formattedQuery.toLowerCase() == 'rajshahi') {
+      temperature.value = '20°';
+      weatherIconPath.value = AssetConstants.cloudy;
     } else {
       temperature.value = '28°';
-      weatherIconPath.value = AssetConstants.cloudy;
+      weatherIconPath.value = AssetConstants.sunny;
     }
 
 

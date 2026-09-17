@@ -136,11 +136,11 @@ class WeatherAddList extends GetView<HomeLogic> {
                               ),
                             ),
                             const SizedBox(width: 6),
-                            Icon(
-                              Icons.navigation,
-                              size: 22,
-                              color: Get.isDarkMode ? AppsColor.white : Colors.black87,
-                            ),
+                            HomeMainImageView(
+                              imagePath: AssetConstants.locationIcon,
+                              imageWidth: 20,
+                              imageHeight: 20,
+                            )
                           ],
                         ),
 
