@@ -1,41 +1,75 @@
 class WeatherDataModel {
-  WeatherDataModel({
-    this.id=0,
-    this. main='',
-    this. description='',
-    this. icon='',
-
-});
   final int id;
   final String main;
   final String description;
   final String icon;
+  final double temp;
+  final int humidity;
+  final double windSpeed;
+  final String cityName;
 
-  factory WeatherDataModel.fromJson(Map<String, dynamic> data){
+  WeatherDataModel({
+    this.id = 0,
+    this.main = '',
+    this.description = '',
+    this.icon = '',
+    this.temp = 0.0,
+    this.humidity = 0,
+    this.windSpeed = 0.0,
+    this.cityName = '',
+  });
+
+
+  factory WeatherDataModel.fromJson(Map<String, dynamic> json) {
+
+    final weatherList = json['weather'] as List?;
+    final weatherMap = (weatherList != null && weatherList.isNotEmpty)
+        ? weatherList[0]
+        : null;
+
     return WeatherDataModel(
-        id: data ['id']?? 0,
-        main: data ['main']?? '',
-        description: data ['description']?? '',
-        icon: data['icon']??'',
+
+      id: weatherMap?['id'] ?? 0,
+      main: weatherMap?['main'] ?? '',
+      description: weatherMap?['description'] ?? '',
+      icon: weatherMap?['icon'] ?? '',
+      temp: (json['main']?['temp'] ?? 0.0).toDouble(),
+      humidity: json['main']?['humidity'] ?? 0,
+      windSpeed: (json['wind']?['speed'] ?? 0.0).toDouble(),
+      cityName: json['name'] ?? '',
     );
   }
 
-
-  Map<String,dynamic> toJson(){
-    return{
-      'id': id,
-      'main' : main,
-      ' description':  description,
-      'icon': icon,
-
+  Map<String, dynamic> toJson() {
+    return {
+      'name': cityName,
+      'main': {
+        'temp': temp,
+        'humidity': humidity,
+      },
+      'wind': {
+        'speed': windSpeed,
+      },
+      'weather': [
+        {
+          'id': id,
+          'main': main,
+          'description': description,
+          'icon': icon,
+        }
+      ],
     };
   }
+
+
   static List<WeatherDataModel> fromJsonList(List<dynamic> data) {
     return data.map((item) {
-      return WeatherDataModel.fromJson(
-        Map<String, dynamic>.from(item),
+      return WeatherDataModel(
+        id: item['id'] ?? 0,
+        main: item['main'] ?? '',
+        description: item['description'] ?? '',
+        icon: item['icon'] ?? '',
       );
     }).toList();
   }
-
 }

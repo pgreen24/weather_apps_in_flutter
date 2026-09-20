@@ -4,8 +4,6 @@ import '../../../utils/apps_color.dart';
 import '../../../utils/app_size.dart';
 import '../../../utils/asset_constant.dart';
 import '../home_logic.dart';
-import '../home_view.dart';
-import 'HomeFirstPageContent.dart';
 import 'home_main_image_view.dart';
 import 'home_quick_state_view.dart';
 import 'home_sunrise_and_sunset_view.dart';
@@ -30,13 +28,22 @@ class WeatherAddList extends GetView<HomeLogic> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
+
+                    if (controller.searchedCity.value.isNotEmpty) {
+                      controller.updateHomeWeatherData(
+                        controller.searchedCity.value,
+                        controller.temperature.value,
+                        controller.weatherIconPath.value.isEmpty
+                            ? AssetConstants.sunny
+                            : controller.weatherIconPath.value,
+                      );
+                    }
                     Get.back();
                   },
                   child: Padding(
@@ -54,7 +61,6 @@ class WeatherAddList extends GetView<HomeLogic> {
                   return Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: GestureDetector(
-
                       onTap: () {
                         controller.toggleCityInList();
                       },
@@ -95,18 +101,14 @@ class WeatherAddList extends GetView<HomeLogic> {
             ),
             const SizedBox(height: 16),
 
-
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Obx(() {
-                    String displayImage = AssetConstants.sunny;
-                    if (controller.searchedCity.value.toLowerCase() == 'mumbai') {
-                      displayImage = AssetConstants.cloudy;
-                    } else if (controller.searchedCity.value.toLowerCase() == 'hyderabad') {
-                      displayImage = AssetConstants.partyCloudy;
-                    }
+                    String displayImage = controller.weatherIconPath.value.isEmpty
+                        ? AssetConstants.sunny
+                        : controller.weatherIconPath.value;
 
                     return Column(
                       spacing: WSizes.defaultSpacing,
@@ -114,21 +116,17 @@ class WeatherAddList extends GetView<HomeLogic> {
                       children: [
                         const SizedBox(height: 10),
 
-
                         HomeMainImageView(
-                          imagePath: controller.weatherIconPath.value.isEmpty
-                              ? displayImage
-                              : controller.weatherIconPath.value,
+                          imagePath: displayImage,
                           imageHeight: 180,
                         ),
-
 
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              controller.searchedCity.value.isEmpty ? 'Pune' : controller.searchedCity.value,
+                              controller.searchedCity.value.isEmpty ? '' : controller.searchedCity.value,
                               style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                                   fontSize: 38,
                                   fontWeight: FontWeight.w900,
@@ -136,7 +134,7 @@ class WeatherAddList extends GetView<HomeLogic> {
                               ),
                             ),
                             const SizedBox(width: 6),
-                            HomeMainImageView(
+                            const HomeMainImageView(
                               imagePath: AssetConstants.locationIcon,
                               imageWidth: 20,
                               imageHeight: 20,
@@ -144,16 +142,14 @@ class WeatherAddList extends GetView<HomeLogic> {
                           ],
                         ),
 
-
                         Text(
-                          controller.temperature.value.isEmpty ? '25°' : controller.temperature.value,
+                          controller.temperature.value.isEmpty ? '' : controller.temperature.value,
                           style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                               fontSize: 76,
                               fontWeight: FontWeight.w400,
                               color: Get.isDarkMode ? AppsColor.white : AppsColor.black
                           ),
                         ),
-
 
                         const HomeQuickStateView(),
                         const HomeSunriseAndSunsetView(),
