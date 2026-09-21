@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
 
 import '../../../utils/app_size.dart';
 import '../../../utils/asset_constant.dart';
+import '../home_logic.dart';
 import 'home_main_image_view.dart';
 
-class SecondIndexLocationTemp extends StatelessWidget {
+class SecondIndexLocationTemp extends GetView<HomeLogic> {
   const SecondIndexLocationTemp({super.key});
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class SecondIndexLocationTemp extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: WSizes.iconSm - 5,
           children: [
-            Text('sylhet', style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 42, letterSpacing: 0.95, fontWeight: FontWeight.w900)),
+            Text( controller.homeCity.value, style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 42, letterSpacing: 0.95, fontWeight: FontWeight.w900)),
             HomeMainImageView(
               imagePath: AssetConstants.locationIcon,
               imageWidth: 20,
@@ -24,7 +26,7 @@ class SecondIndexLocationTemp extends StatelessWidget {
             )
           ],
         ),
-        Text('25°', style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 60, letterSpacing: 0.95, fontWeight: FontWeight.w900)),
+        Text(controller.homeTemp.value, style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 60, letterSpacing: 0.95, fontWeight: FontWeight.w900)),
       ],
     );
   }

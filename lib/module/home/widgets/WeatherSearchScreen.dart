@@ -23,7 +23,6 @@ class WeatherSearchScreen extends GetView<HomeLogic> {
 
             Row(
               children: [
-
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
@@ -38,8 +37,6 @@ class WeatherSearchScreen extends GetView<HomeLogic> {
                     ),
                   ),
                 ),
-
-
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
@@ -48,6 +45,8 @@ class WeatherSearchScreen extends GetView<HomeLogic> {
                     ),
                     child: TextField(
                       controller: controller.searchController,
+
+                      onChanged: (value) => controller.onSearchTextChanged(value),
                       onSubmitted: (value) => controller.performSearch(value),
                       style: const TextStyle(fontSize: 16),
                       decoration: const InputDecoration(
@@ -64,51 +63,99 @@ class WeatherSearchScreen extends GetView<HomeLogic> {
             ),
             const SizedBox(height: 16),
 
+            Obx(() {
+              if (controller.isDropdownLoading.value) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                );
+              }
 
-            Obx(() => Wrap(
-              spacing: 10,
-              runSpacing: 8,
-              children: controller.searchHistory.map((city) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF7F7F9),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          controller.searchController.text = city;
-                          controller.performSearch(city);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 16.0, top: 10.0, bottom: 10.0, right: 4.0),
-                          child: Text(
-                            city,
-                            style: const TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.w500,
+              if (controller.apiDropdownSuggestions.isEmpty) {
+                return const SizedBox.shrink();
+              }
+
+              return Container(
+                constraints: const BoxConstraints(maxHeight: 200),
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF7F7F9),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.black12, width: 0.5),
+                ),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: controller.apiDropdownSuggestions.length,
+                  itemBuilder: (context, index) {
+                    final suggestion = controller.apiDropdownSuggestions[index];
+                    return ListTile(
+                      leading: const Icon(Icons.location_on, color: Colors.black45, size: 20),
+                      title: Text(
+                        suggestion['text'],
+                        style: const TextStyle(
+                          color: Colors.black87,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      onTap: () {
+
+                        controller.performSearch(suggestion['text']);
+                      },
+                    );
+                  },
+                ),
+              );
+            }),
+
+            Obx(() {
+              if (controller.searchHistory.isEmpty) {
+                return const SizedBox.shrink();
+              }
+              return Wrap(
+                spacing: 10,
+                runSpacing: 8,
+                children: controller.searchHistory.map((city) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF7F7F9),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            controller.searchController.text = city;
+                            controller.performSearch(city);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 16.0, top: 10.0, bottom: 10.0, right: 4.0),
+                            child: Text(
+                              city,
+                              style: const TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () => controller.removeFromHistory(city),
-                        child: const Padding(
-                          padding: EdgeInsets.only(right: 10.0, left: 4.0),
-                          child: Icon(
-                            Icons.close,
-                            size: 16,
-                            color: Colors.black45,
+                        GestureDetector(
+                          onTap: () => controller.removeFromHistory(city),
+                          child: const Padding(
+                            padding: EdgeInsets.only(right: 10.0, left: 4.0),
+                            child: Icon(
+                              Icons.close,
+                              size: 16,
+                              color: Colors.black45,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
-            )),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              );
+            }),
             const SizedBox(height: 24),
 
             Obx(() {
@@ -173,3 +220,4 @@ class WeatherSearchScreen extends GetView<HomeLogic> {
     );
   }
 }
+
