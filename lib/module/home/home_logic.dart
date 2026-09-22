@@ -24,8 +24,6 @@ class HomeLogic extends GetxController {
   var apiDropdownSuggestions = <Map<String, dynamic>>[].obs;
   RxBool isDropdownLoading = false.obs;
 
-
-
   @override
   void onInit() {
     super.onInit();
@@ -55,13 +53,13 @@ class HomeLogic extends GetxController {
     isLoading.value = false;
   }
 
-
   Future<void> fetchAllDistrictsFromApi() async {
     try {
       isDropdownLoading.value = true;
       final response = await ApiServices().getCityById(id: 1);
 
       if (response != null && response.statusCode == 200 && response.data != null) {
+        print("$response");
         List<dynamic> dataList = [];
         if (response.data is Map) {
           dataList = response.data['data'] ?? response.data['result'] ?? [];
@@ -74,6 +72,19 @@ class HomeLogic extends GetxController {
           'text': item['text'] ?? item['name'] ?? ''
         }).toList();
 
+
+        if (allApiDistricts.isNotEmpty) {
+          List<String> firstFiveNames = allApiDistricts
+              .take(5)
+              .map((item) {
+            String rawText = item['text'].toString();
+            return rawText.split('-').first.trim();
+          })
+              .toList();
+
+          searchHistory.assignAll(firstFiveNames);
+        }
+
         debugPrint("Successfully loaded ${allApiDistricts.length} districts dynamically from API.");
       }
     } catch (e) {
@@ -83,7 +94,6 @@ class HomeLogic extends GetxController {
     }
   }
 
-
   void onSearchTextChanged(String query) {
     if (query.trim().isEmpty) {
       apiDropdownSuggestions.clear();
@@ -91,7 +101,6 @@ class HomeLogic extends GetxController {
     }
 
     String lowerQuery = query.trim().toLowerCase();
-
 
     var filtered = allApiDistricts.where((item) {
       final String name = item['text'].toString().toLowerCase();
@@ -101,18 +110,23 @@ class HomeLogic extends GetxController {
     apiDropdownSuggestions.assignAll(filtered);
   }
 
-
   Future<void> performSearch(String query) async {
     if (query.trim().isEmpty) return;
-    String formattedQuery = query.trim();
+    String formattedQuery = query.split('-').first.trim();
     isSearchLoading.value = true;
 
     final dio.Response? response = await ApiServices().apiGetCall(cityName: formattedQuery);
 
     if (response != null && response.statusCode == 200) {
-      searchedCity.value = response.data['name'] ?? formattedQuery;
-      temperature.value = "${response.data['main']['temp'].round()}°";
+      //searchedCity.value = response.data['name'] ?? formattedQuery;
+      //temperature.value = "${response.data['main']['temp'].round()}°";
+      homeCity.value = response.data['name'] ?? formattedQuery;
+      homeTemp.value = "${response.data['main']['temp'].round()}°";
 
+      if (response.data['weather'] != null && (response.data['weather'] as List).isNotEmpty) {
+        String iconCode = response.data['weather'][0]['icon'] ?? '';
+        weatherIconPath.value = getWeatherIcon(iconCode);
+      }
       searchHistory.remove(searchedCity.value);
       searchHistory.insert(0, searchedCity.value);
       if (searchHistory.length > 5) searchHistory.removeLast();
@@ -120,18 +134,14 @@ class HomeLogic extends GetxController {
       apiDropdownSuggestions.clear();
       searchController.clear();
 
-      if (response.data['weather'] != null && (response.data['weather'] as List).isNotEmpty) {
-        String iconCode = response.data['weather'][0]['icon'] ?? '';
-        weatherIconPath.value = getWeatherIcon(iconCode);
-      }
-
-      checkIfAdded(searchedCity.value);
+      //checkIfAdded(searchedCity.value);
+      Get.back();
     } else {
       Get.snackbar(
           "City Not Found",
           "Check name and try again.",
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.redAccent.withOpacity(0.8),
+          backgroundColor: Colors.redAccent,
           colorText: Colors.white
       );
     }
@@ -145,7 +155,6 @@ class HomeLogic extends GetxController {
     if (['09d', '09n', '10d', '10n', '11d', '11n'].contains(iconCode)) return AssetConstants.Rain;
     return AssetConstants.sunny;
   }
-
   void checkIfAdded(String city) {
     isAddedToList.value = addedCitiesList.any((e) => e['city']!.toLowerCase() == city.toLowerCase());
   }

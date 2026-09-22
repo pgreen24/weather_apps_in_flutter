@@ -79,19 +79,21 @@ class WeatherSearchScreen extends GetView<HomeLogic> {
                 constraints: const BoxConstraints(maxHeight: 200),
                 margin: const EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF7F7F9),
+                  //color: const Color(0xFFF7F7F9),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.black12, width: 0.5),
                 ),
                 child: ListView.builder(
-                  shrinkWrap: true,
+                 shrinkWrap: true,
                   itemCount: controller.apiDropdownSuggestions.length,
                   itemBuilder: (context, index) {
                     final suggestion = controller.apiDropdownSuggestions[index];
+                    String rawText = suggestion['text'].toString();
+                    String englishName = rawText.split('-').first.trim();
                     return ListTile(
                       leading: const Icon(Icons.location_on, color: Colors.black45, size: 20),
                       title: Text(
-                        suggestion['text'],
+                        englishName,
                         style: const TextStyle(
                           color: Colors.black87,
                           fontWeight: FontWeight.w500,
@@ -99,7 +101,7 @@ class WeatherSearchScreen extends GetView<HomeLogic> {
                       ),
                       onTap: () {
 
-                        controller.performSearch(suggestion['text']);
+                        controller.performSearch(englishName);
                       },
                     );
                   },
@@ -111,11 +113,13 @@ class WeatherSearchScreen extends GetView<HomeLogic> {
               if (controller.searchHistory.isEmpty) {
                 return const SizedBox.shrink();
               }
-              return Wrap(
-                spacing: 10,
-                runSpacing: 8,
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child:Row(
                 children: controller.searchHistory.map((city) {
                   return Container(
+                    margin: const EdgeInsets.only(right: 8.0),
                     decoration: BoxDecoration(
                       color: const Color(0xFFF7F7F9),
                       borderRadius: BorderRadius.circular(12),
@@ -154,66 +158,66 @@ class WeatherSearchScreen extends GetView<HomeLogic> {
                     ),
                   );
                 }).toList(),
+              ),
               );
             }),
-            const SizedBox(height: 24),
-
-            Obx(() {
-              if (controller.searchedCity.value.isEmpty) {
-                return const SizedBox.shrink();
-              }
-
-              return GestureDetector(
-                onTap: () {
-                  Get.to(() => const WeatherAddList());
-                },
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(WSizes.defaultSpacing + 4),
-                  decoration: BoxDecoration(
-                    color: Get.isDarkMode ? AppsColor.darkerGrey.withValues(alpha: 0.5) : AppsColor.white,
-                    borderRadius: BorderRadius.circular(WSizes.borderRadiusMd),
-                    border: Border.all(color: AppsColor.darkGrey.withValues(alpha: 0.5), width: 0.5),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            controller.searchedCity.value,
-                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ) ?? const TextStyle(
-                                fontSize: 26,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            controller.temperature.value,
-                            style: Theme.of(context).textTheme.displayMedium ?? const TextStyle(
-                                fontSize: 60,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black
-                            ),
-                          ),
-                        ],
-                      ),
-                      HomeMainImageView(
-                        imagePath: controller.weatherIconPath.value.isEmpty
-                            ? AssetConstants.sunny
-                            : controller.weatherIconPath.value,
-                        imageWidth: 90,
-                        imageHeight: 90,
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }),
+            // const SizedBox(height: 24),
+            //
+            // Obx(() {
+            //   if (controller.searchedCity.value.isEmpty) {
+            //     return const SizedBox.shrink();
+            //   }
+            //
+            //   return GestureDetector(
+            //     onTap: () {
+            //       Get.to(() => const WeatherAddList());
+            //     },
+            //     child: Container(
+            //       width: double.infinity,
+            //       padding: const EdgeInsets.all(WSizes.defaultSpacing + 4),
+            //       decoration: BoxDecoration(
+            //         color: Get.isDarkMode ? AppsColor.darkerGrey.withValues(alpha: 0.5) : AppsColor.white,
+            //         borderRadius: BorderRadius.circular(WSizes.borderRadiusMd),
+            //         border: Border.all(color: AppsColor.darkGrey.withValues(alpha: 0.5), width: 0.5),
+            //       ),
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //         children: [
+            //           Column(
+            //             crossAxisAlignment: CrossAxisAlignment.start,
+            //             children: [
+            //               Text(
+            //                 controller.searchedCity.value,
+            //                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+            //                   fontWeight: FontWeight.bold,
+            //                 ) ?? const TextStyle(
+            //                     fontSize: 26,
+            //                     fontWeight: FontWeight.bold,
+            //                     color: Colors.black
+            //                 ),
+            //               ),
+            //               const SizedBox(height: 4),
+            //               Text(
+            //                 controller.temperature.value,
+            //                 style: Theme.of(context).textTheme.displayMedium ?? const TextStyle(
+            //                     fontSize: 60,
+            //                     fontWeight: FontWeight.w400, color: Colors.black
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //           HomeMainImageView(
+            //             imagePath: controller.weatherIconPath.value.isEmpty
+            //                 ? AssetConstants.sunny
+            //                 : controller.weatherIconPath.value,
+            //             imageWidth: 90,
+            //             imageHeight: 90,
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   );
+            // }),
           ],
         ),
       ),
